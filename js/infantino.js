@@ -1,0 +1,87 @@
+/* ============================================================================
+   MODULE — MAN OF THE MATCH: GIANNI INFANTINO
+   A broadcast squad card. Documented "season stats" (fact) + a live, clearly
+   labelled in-tournament spend bug (projection). Ticks while open.
+   ============================================================================ */
+
+(function () {
+  const fmt = n => new Intl.NumberFormat("en-US").format(Math.round(n));
+  let timer = null;
+
+  function daysElapsed(startISO, nowMs) {
+    return Math.max(0, (nowMs - new Date(startISO + "T00:00:00").getTime()) / 86400000);
+  }
+
+  window.DSWC_stopInfantino = function () { if (timer) { clearInterval(timer); timer = null; } };
+
+  window.DSWC_renderInfantino = function (root) {
+    const I = window.DSWC.INFANTINO, T = window.DSWC.TOURNAMENT, C = window.DSWC.COMPARE;
+    const p = I.runningTallyProjection;
+
+    const statlines = I.statline.map(s => {
+      const cites = s.src.map(x => `<a class="cite" data-cite="${x}"></a>`).join("");
+      return `<div class="statline-row">
+        <span class="statline-k">${s.k}</span>
+        <span class="statline-v">${s.v}</span>
+        <span class="statline-sub">${s.sub}${cites}</span></div>`;
+    }).join("");
+
+    // a darkly-funny relatable comparison for the live meter
+    const rentYr = C.medianUSRentMonth * 12;
+    const rentEquivPerDay = (p.perDayUSD / rentYr).toFixed(1);
+
+    root.innerHTML = `
+      <div class="mod">
+        <div class="lower-third">
+          <span class="fact-badge">Accountability · Man of the Match</span>
+          <h3>He gave himself the armband</h3>
+          <p>
+            While the tournament preaches austerity to host cities, its president travels by private jet. Gianni Infantino
+            banked a <b>$6M</b> pay package in 2025 and keeps drawing fire for jets, multiple homes and FIFA-adjacent
+            perks — even as he asks the public to cover the World Cup's bills.<a class="cite" data-cite="S_ESPN_PAY"></a><a class="cite" data-cite="S_WIKI_GI"></a>
+            The meter is an <em style="color:var(--yellow)">illustrative estimate</em>, not an audited figure.
+          </p>
+        </div>
+
+        <div class="mod__inner">
+          <div class="squad">
+            <div class="squad__card">
+              <div class="squad__num">01</div>
+              <div class="squad__pos">Position · President</div>
+              <div class="squad__name">Gianni<br>Infantino</div>
+              <div class="squad__club">FIFA · since 2016 · unopposed 2023</div>
+              <div class="mom-badge">★ Man of the Match: himself</div>
+
+              <div class="squad__meter">
+                <div class="squad__meterlab">Est. in-tournament jet + security + entourage <span class="est-badge">Est</span></div>
+                <div class="odometer"><span class="cur">$</span><span class="digits" id="odo">0</span></div>
+                <div class="squad__rate" id="odoRate"></div>
+                <p style="font-size:.8rem;color:var(--dim);margin:8px 0 0">${p.note}${p.src.map(s=>`<a class="cite" data-cite="${s}"></a>`).join("")}</p>
+              </div>
+            </div>
+
+            <div class="squad__stats">
+              <div class="squad__meterlab" style="margin-bottom:6px">Season stats <span class="fact-badge">Reported</span></div>
+              ${statlines}
+              <p style="font-size:.8rem;color:var(--faint);margin-top:16px;font-family:var(--cond);font-weight:600;text-transform:uppercase;letter-spacing:.04em">
+                Reported by ESPN, Wikipedia & BusinessDay. The live meter is a transparent model — days elapsed × an illustrative daily cost.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>`;
+
+    const odo = root.querySelector("#odo");
+    const rate = root.querySelector("#odoRate");
+    const perDay = p.perDayUSD, perSec = perDay / 86400;
+
+    function tick() {
+      const days = daysElapsed(T.start, Date.now());
+      odo.textContent = fmt(days * perDay);
+      rate.textContent = `≈ $${fmt(perDay)}/day · +$${perSec.toFixed(2)} every second you watch · ≈ ${rentEquivPerDay} years of median rent, every single day`;
+    }
+    tick();
+    window.DSWC_stopInfantino();
+    timer = setInterval(tick, 1000);
+  };
+})();

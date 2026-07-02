@@ -1,0 +1,5 @@
+# local tooling
+.claude/
+
+# source art (site ships the compressed .jpg versions; PNGs stay local, ~8MB each)
+assets/skit/*.png
