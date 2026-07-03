@@ -226,14 +226,47 @@ const INFANTINO = {
   // squad-card "season stats"
   statline: [
     { k: "2025 pay package", v: "$6.0M", sub: "$3.3M salary + a $2.78M bonus (up 33%) after the first Club World Cup.", src: ["S_ESPN_PAY"], est: false },
-    { k: "Matches in 7 days", v: "10", sub: "Reportedly reached via a Qatar Airways private jet. A lecture on carbon would be awkward.", src: ["S_WIKI_GI", "S_HITC"], est: false },
+    { k: "Group-stage matches", v: "24", sub: "In just over two weeks, across a continent — often two games a day, hundreds of miles apart.", src: ["S_BBC_JET"], est: false },
+    { k: "Private-jet flights", v: "27", sub: "BBC Verify tracked a FIFA-linked jet to every city where he was photographed in the stands.", src: ["S_BBC_JET"], est: false },
+    { k: "Fortnight of CO₂e", v: "516t", sub: "Roughly what 78 average people emit in an entire year. From one man's group stage.", src: ["S_BBC_JET"], est: false },
     { k: "Homes maintained", v: "2", sub: "Switzerland and Florida; family reportedly relocated to Miami after Qatar 2022.", src: ["S_WIKI_GI"], est: false },
     { k: "Kids' school (billed)", v: "$5k/mo", sub: "FIFA reportedly funds his daughter's private schooling in Miami.", src: ["S_BDAY"], est: false }
   ],
+  /* BBC Verify / BBC Sport jet-tracking investigation, 28 June 2026 [fact] */
+  jet: {
+    basis: "fact", src: ["S_BBC_JET"],
+    aircraft: "Gulfstream G650ER (Qatar Airways Executive)",
+    flights: 27, matches: 24, miles: 31144, km: 50122, hoursInAir: 66,
+    co2eTonnes: 516, personYearsEquiv: 78, fuelLitresPerHour: 1817, seats: 19,
+    bigStats: [
+      { n: "27", l: "flights during the group stage", cls: "red" },
+      { n: "31,144", l: "miles flown — 1.25× around the Earth", cls: "red" },
+      { n: "66+", l: "hours in the air in ~16 days", cls: "amber" },
+      { n: "516t", l: "CO₂e — a year's emissions for 78 people", cls: "red" }
+    ],
+    itinerary: [
+      { d: "13 June", t: "Vancouver → Miami. 2,800 miles home to bed after watching Australia–Türkiye." },
+      { d: "15 June", t: "Miami → Seattle (2,700 mi) for Belgium–Egypt, then → Los Angeles (960 mi) for Iran–New Zealand. One man, one day, ~3,700 miles." },
+      { d: "22 June", t: "Philadelphia → Teterboro, NJ — 92 miles, by private jet — for a Fox News interview. Then on to matches in Boston and Toronto." },
+      { d: "26 June", t: "Miami → Dallas → Seattle for Egypt–Iran, wheels-up again five hours later, 2,700 miles back to Miami overnight." }
+    ],
+    hypocrisy: {
+      pledge: "Whether we speak about climate, human rights, diseases or disabilities, we are committed to play our part.",
+      pledgeWho: "Gianni Infantino, FIFA's 2026 sustainability & human rights strategy",
+      response: "Sometimes travel is organised on commercial [including low-cost] airlines and sometimes it is on private charter, depending on which is more efficient and cost-effective under the circumstances.",
+      responseWho: "FIFA representative, to BBC Sport",
+      unanswered: "The BBC asked FIFA whether any flights were commercial, how many people ride the jet, and whether the emissions are offset. FIFA did not respond."
+    },
+    quotes: [
+      { q: "Symptomatic of FIFA's failings on the environment and sustainability… completely at odds with the level of leadership that we need to see at the top of FIFA.", who: "Freddie Daley, Cool Down / Sussex University" },
+      { q: "Private jets are five to 14 times more polluting than commercial planes and 50 times more than trains.", who: "Denise Auclair, Transport & Environment" }
+    ],
+    context: "At Qatar 2022 he attended all 64 matches — the stadiums were an hour's drive apart. In 2023 a Swiss regulator ruled FIFA had 'made false statements' calling that tournament carbon-neutral. FIFA has since pledged a 50% emissions cut by 2030 and net-zero by 2040. Then the group stage started."
+  },
   runningTallyProjection: {
     basis: "projection", perDayUSD: 82000,
     note: "Illustrative model of daily private-jet, security-detail and entourage cost across the tournament window. Not an audited figure — a back-of-envelope for scale.",
-    src: ["S_WIKI_GI", "S_HITC", "S_BDAY"]
+    src: ["S_BBC_JET", "S_WIKI_GI", "S_HITC", "S_BDAY"]
   }
 };
 
@@ -405,9 +438,9 @@ const MODULES = [
     teaser: "Cities were promised a windfall and handed a security invoice. Vancouver's tab nearly tripled to $729M. FIFA keeps the gate money.",
     render: "budget" },
   { id: "infantino", status: "live", size: "lg", card: "red", group: "MAN OF THE MATCH",
-    stat: "$6M", statUnit: "2025 pay package", est: false,
+    stat: "27", statUnit: "private-jet flights, group stage", est: false,
     title: "He gave himself the armband",
-    teaser: "$6M in pay, a private jet for 10 games in a week, and a family relocation — from the man who tells cities to tighten their belts.",
+    teaser: "BBC Verify tracked his jet: 27 flights, 24 matches, 31,144 miles and 516 tonnes of CO₂e in a fortnight — from the man who signed the tournament's climate pledge.",
     render: "infantino" },
   { id: "finance",     status: "live", size: "sm", card: "red", group: "THE MONEY",
     stat: "$8.9B", statUnit: "FIFA revenue, tax-favoured", est: false,
@@ -554,7 +587,9 @@ const CRAWL = [
   { t: "FEMA hands out $846M to secure 11 U.S. host cities", s: "S_FEMA" },
   { t: "'FROM $60' TICKETS reach $33,000 for the Final under dynamic pricing", s: "S_BRIT_TIX" },
   { t: "INFANTINO banks a $6M pay package; bonus up 33%", s: "S_ESPN_PAY" },
-  { t: "FIFA president reportedly took a private jet to 10 matches in 7 days", s: "S_WIKI_GI" },
+  { t: "BBC VERIFY TRACKS INFANTINO'S JET — 27 flights, 24 matches, 31,144 miles in the group stage alone", s: "S_BBC_JET" },
+  { t: "INFANTINO'S FORTNIGHT OF FLYING ≈ 516 tonnes CO₂e — what 78 people emit in a YEAR", s: "S_BBC_JET" },
+  { t: "92 MILES, BY PRIVATE JET: Philadelphia to New Jersey for a Fox News interview", s: "S_BBC_JET" },
   { t: "2015: SEVEN OFFICIALS ARRESTED in Zurich dawn raids; $150M+ in bribes alleged", s: "S_DOJ" }
 ];
 
@@ -581,6 +616,7 @@ const SOURCES = {
   S_GOAL_DYN:  { pub: "Goal.com", title: "FIFA World Cup 2026 dynamic pricing ticket guide", url: "https://www.goal.com/en/news/world-cup-dynamic-pricing-guide/bltd1aac4c9aae2cd85" },
   S_BRIT_TIX:  { pub: "Britannica", title: "How expensive is a 2026 FIFA World Cup ticket?", url: "https://www.britannica.com/question/How-expensive-is-a-2026-FIFA-World-Cup-ticket" },
   S_ESPN_PAY:  { pub: "ESPN", title: "Infantino lands $6M pay package following inaugural Club World Cup", url: "https://www.espn.com/soccer/story/_/id/48252606/" },
+  S_BBC_JET:   { pub: "BBC Verify & BBC Sport", title: "27 flights, 24 matches: The carbon cost of Fifa president's World Cup tour", url: "https://www.bbc.com/sport/football/articles/cgev5wy0zg3o" },
   S_FIFA_COMP: { pub: "FIFA", title: "Compensation — FIFA Annual Report", url: "https://inside.fifa.com/official-documents/annual-report/2023/governance/compensation" },
   S_WIKI_GI:   { pub: "Wikipedia", title: "Gianni Infantino", url: "https://en.wikipedia.org/wiki/Gianni_Infantino" },
   S_BDAY:      { pub: "BusinessDay", title: "FIFA under fire for Infantino's lavish lifestyle", url: "https://businessday.ng/sports/article/fifa-under-fire-for-infantinos-lavish-lifestyle/" },
