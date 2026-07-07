@@ -87,7 +87,7 @@
       map: window.DSWC_renderMap, budget: window.DSWC_renderBudget, infantino: window.DSWC_renderInfantino,
       timeline: window.DSWC_renderTimeline, finance: window.DSWC_renderFinance, sportswash: window.DSWC_renderSportswash,
       policing: window.DSWC_renderPolicing, displacement: window.DSWC_renderDisplacement,
-      labor: window.DSWC_renderLabor, cities: window.DSWC_renderCities
+      labor: window.DSWC_renderLabor, cities: window.DSWC_renderCities, matchreport: window.DSWC_renderMatchreport
     };
     if (R[m.render]) R[m.render](body);
 
@@ -146,8 +146,8 @@
     const el = $("#taleTape"); if (!el) return;
     const tape = [
       { n: "9.02M", l: "tonnes CO₂e", cls: "red" },
-      { n: "$1B+", l: "public tab (CAN)", cls: "amber" },
-      { n: "$33,000", l: "top Final ticket", cls: "red" },
+      { n: "$1.07B", l: "public tab (CAN, confirmed)", cls: "amber" },
+      { n: "$32,970", l: "top Final ticket", cls: "red" },
       { n: "$8.9B", l: "FIFA revenue", cls: "amber" },
       { n: "$0", l: "owed in federal tax", cls: "green" }
     ];
@@ -162,12 +162,14 @@
     { stat: "9.02M t", claim: "The 2026 World Cup is projected to emit up to 9.02 million tonnes of CO₂e — the most polluting World Cup on record, roughly double the 2010–2022 average", s: "S_SGR" },
     { stat: "87%", claim: "87% of the tournament's projected emissions come from spectators travelling, not from stadiums", s: "S_LBORO" },
     { stat: "$729M", claim: "Vancouver's public bill for hosting climbed from a 2022 estimate of about $260M to as much as $729M CAD — nearly triple", s: "S_GLOBAL_VAN" },
-    { stat: "~$1B", claim: "Canada's Parliamentary Budget Officer puts the country's total taxpayer cost for hosting at roughly $1 billion", s: "S_CBC_PBO" },
+    { stat: "$82M", claim: "Canada's Parliamentary Budget Officer confirmed a public cost of $1,066M CAD — $82 million for each of Canada's 13 games", s: "S_PBO" },
     { stat: "$846M", claim: "FEMA awarded $846 million in federal security grants to lock down the 11 U.S. host cities", s: "S_FEMA" },
-    { stat: "$60 → $33k", claim: "Tickets advertised 'from $60' reached roughly $33,000 for Category-1 Final seats under FIFA's dynamic pricing", s: "S_BRIT_TIX" },
+    { stat: "$60 → $33k", claim: "Tickets advertised 'from $60' reached $32,970 for Front-Category Final seats under FIFA's dynamic pricing — and FIFA takes a 30% commission on resales", s: "S_LSE_TIX" },
+    { stat: "90 of 104", claim: "New York and New Jersey subpoenaed FIFA after it raised prices on more than 90 of 104 matches, averaging 34% increases, and downgraded seats fans had already bought", s: "S_NYAG" },
     { stat: "$8.9B · $0", claim: "FIFA projects roughly $8.9 billion in revenue from this tournament, and has held U.S. tax-exempt status since 1994", s: "S_BIZMODEL" },
-    { stat: "10 in 7", claim: "FIFA president Gianni Infantino took a $6M pay package and reportedly used a private jet to reach 10 matches in 7 days", s: "S_ESPN_PAY" },
-    { stat: "2×", claim: "Airbnb's average nightly rate doubled year-over-year across all 16 host cities, from about $216 to $450", s: "S_FORTUNE_AIRBNB" },
+    { stat: "27 flights", claim: "BBC Verify tracked a FIFA-linked private jet through 27 flights to Infantino's 24 group-stage matches — 31,144 miles and an estimated 516 tonnes of CO₂e in a fortnight", s: "S_BBC_JET" },
+    { stat: "+3%", claim: "Toronto's $380M World Cup delivered a 3% rise in bar and restaurant spending in its first two weeks, while hotel occupancy fell from 88% to 72%", s: "S_CP24_TOR" },
+    { stat: "2×", claim: "Airbnb's average nightly rate doubled year-over-year across all 16 host cities, from about $216 to $450", s: "S_AIRROI" },
     { stat: "120+", claim: "More than 120 civil-society groups issued a travel advisory for the United States ahead of the World Cup", s: "S_AMNESTY" }
   ];
 

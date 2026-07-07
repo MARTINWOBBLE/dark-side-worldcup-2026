@@ -40,6 +40,29 @@
     const first = root.querySelector('.tl-item[data-i="1"]'); if (first) first.classList.add("open");
   };
 
+  /* --------------------------------------------------- 11 · MATCH REPORT --- */
+  window.DSWC_renderMatchreport = function (root) {
+    const M = window.DSWC.MATCHREPORT;
+    const items = M.incidents.map((e, i) => `
+      <li class="tl-item" data-i="${i}">
+        <button class="tl-dot" aria-expanded="false"></button>
+        <div class="tl-body">
+          <div class="tl-when">${e.d} <span class="tl-tag">${e.tag}</span></div>
+          <div class="tl-title">${e.title}</div>
+          <p class="tl-text">${e.body}${cites(e.src)}</p>
+        </div>
+      </li>`).join("");
+    root.innerHTML = `<div class="mod">
+      ${lowerThird("Match Report · The Incident Log", "Three weeks in: the casualty list", M.intro)}
+      <div class="mod__inner"><ol class="tl">${items}</ol></div></div>`;
+    root.querySelector(".tl").addEventListener("click", e => {
+      const item = e.target.closest(".tl-item"); if (!item) return;
+      const open = item.classList.toggle("open");
+      item.querySelector(".tl-dot").setAttribute("aria-expanded", open);
+    });
+    const first = root.querySelector('.tl-item[data-i="0"]'); if (first) first.classList.add("open");
+  };
+
   /* ------------------------------------------------------- 05 · FINANCE --- */
   window.DSWC_renderFinance = function (root) {
     const F = window.DSWC.FINANCE;
@@ -120,6 +143,7 @@
       <div class="mod__inner">
         <div class="statrow">
           <div class="stat" style="--accent:var(--red)"><div class="stat__num red">$1B+</div><div class="stat__label">Public money into security${cites(P.securitySrc)}</div></div>
+          <div class="stat" style="--accent:var(--red)"><div class="stat__num red">${P.iceArrests167k.value}</div><div class="stat__label">ICE arrests in & around host cities, Jan 2025 – Mar 2026${cites(P.iceArrests167k.src)}</div></div>
           <div class="stat" style="--accent:var(--yellow)"><div class="stat__num amber">${P.advisoryGroups}+</div><div class="stat__label">Rights groups issued a travel advisory${cites(P.advisorySrc)}</div></div>
           <div class="stat" style="--accent:var(--red)"><div class="stat__num red">3</div><div class="stat__label">Host stadiums rolling out facial recognition${cites(P.facialRecSrc)}</div></div>
         </div>
@@ -128,6 +152,11 @@
         <div class="fr-grid">${fr}</div>
         <h4 class="section-h">ICE, <span class="red">'A KEY PART'</span></h4>
         <p style="color:var(--dim);font-size:.95rem;margin:2px 0 14px;max-width:80ch">${P.ice}${cites(P.iceSrc)}</p>
+        <h4 class="section-h">STOPPED <span class="red">AT THE BORDER</span></h4>
+        <p style="color:var(--dim);font-size:.9rem;margin:2px 0 10px;max-width:80ch">${P.border.note}${cites(P.border.src)}</p>
+        <div class="subboard">${P.border.items.map(b => `<div class="statline-row" style="grid-template-columns:1fr">
+          <span class="statline-k">${b.who} · <span style="color:var(--faint)">${b.role}</span></span>
+          <span class="statline-sub">${b.what}</span></div>`).join("")}</div>
         <h4 class="section-h">THE <span class="yellow" style="color:var(--yellow)">TRAVEL ADVISORY</span> LISTS</h4>
         <div class="risk-row">${risks}</div>
         <div class="quotes-row">${quotes}</div>
@@ -152,8 +181,8 @@
             <span class="barline__val">$${Dp.airbnbAfter}/night</span></div>
         </div>
         <div class="statrow">
-          <div class="stat" style="--accent:var(--red)"><div class="stat__num red">~300%</div><div class="stat__label">Hotel-rate surge around opening matches${cites(Dp.airbnbSrc)}</div></div>
-          <div class="stat" style="--accent:var(--yellow)"><div class="stat__num amber">$6,000</div><div class="stat__label">One Princeton, NJ Airbnb, per night${cites(Dp.airbnbSrc)}</div></div>
+          ${Dp.gouging.items.map(g => `<div class="stat" style="--accent:var(--${g.cls === 'red' ? 'red' : 'yellow'})">
+            <div class="stat__num ${g.cls}">${g.n}</div><div class="stat__label">${g.l}${cites(g.src)}</div></div>`).join("")}
         </div>
         <h4 class="section-h">HOUSE <span class="green">or</span> <span class="red">SWEEP</span></h4>
         <div class="two-card">
@@ -183,6 +212,10 @@
           <div class="tc tc--red"><div class="tc__tag">Heat</div><div class="tc__city">90°F+ on the clock</div><p>${L.heat}${cites(L.heatSrc)}</p></div>
           <div class="tc tc--yellow"><div class="tc__tag">Papers</div><div class="tc__city">Status to clock in</div><p>${L.checks}${cites(L.checksSrc)}</p></div>
         </div>
+        <h4 class="section-h">THE <span class="red">STRIKE</span> LEDGER</h4>
+        <div class="subboard">${L.strikes.map(s => `<div class="statline-row" style="grid-template-columns:1fr">
+          <span class="statline-k"><span class="tl-tag">${s.tag}</span> &nbsp;${s.city}</span>
+          <span class="statline-sub">${s.text}${cites(s.src)}</span></div>`).join("")}</div>
         <p style="color:var(--dim);font-size:.95rem;margin:16px 0 0;max-width:82ch">${L.strikeNote}${cites(L.strikeSrc)}</p>
       </div></div>`;
   };

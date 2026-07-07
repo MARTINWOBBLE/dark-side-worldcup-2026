@@ -96,7 +96,13 @@
           <div class="quotes-row">
             ${J.quotes.map(q => `<blockquote class="pullquote small">“${q.q}”<cite>— ${q.who}${jetCite}</cite></blockquote>`).join("")}
           </div>
-          <p style="color:var(--faint);font-size:.86rem;margin:16px 0 0;max-width:82ch">${J.context}${jetCite}</p>
+          <p style="color:var(--faint);font-size:.86rem;margin:16px 0 0;max-width:82ch">${J.context}${(J.contextSrc || J.src).map(x => `<a class="cite" data-cite="${x}"></a>`).join("")}</p>
+
+          <h4 class="section-h" style="margin-top:28px">OFF-THE-BALL <span class="red">INCIDENTS</span> <span class="fact-badge">Reported</span></h4>
+          <div class="two-card" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
+            ${I.offBall.map(o => `<div class="tc tc--red"><div class="tc__tag">${o.tag}</div><div class="tc__city">${o.title}</div>
+              <p>${o.body}${o.src.map(x => `<a class="cite" data-cite="${x}"></a>`).join("")}</p></div>`).join("")}
+          </div>
         </div>
       </div>`;
 
