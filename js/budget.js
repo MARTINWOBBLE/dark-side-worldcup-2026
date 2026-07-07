@@ -67,6 +67,14 @@
       </div><span class="rung__lab">${n.lab}</span></div>`).join("");
     const tCites = t.src.map(s => `<a class="cite" data-cite="${s}"></a>`).join("");
 
+    const R = B.reality;
+    const cite = arr => (arr || []).map(s => `<a class="cite" data-cite="${s}"></a>`).join("");
+    const realityStats = R.items.map(r => `<div class="stat" style="--accent:var(--${r.cls === 'red' ? 'red' : 'yellow'})">
+      <div class="stat__num ${r.cls}">${r.n}</div><div class="stat__label">${r.l}${cite(r.src)}</div></div>`).join("");
+    const probeRows = B.probes.map(p => `<div class="statline-row" style="grid-template-columns:1fr">
+      <span class="statline-k">${p.who}</span>
+      <span class="statline-sub">${p.what}${p.quote ? ` <em>"${p.quote}"</em> — ${p.quoteWho}.` : ""}${cite(p.src)}</span></div>`).join("");
+
     root.innerHTML = `
       <div class="mod">
         <div class="lower-third">
@@ -80,6 +88,14 @@
 
           <h4 class="section-h">HALF-TIME <span class="red">STATS</span>: PROMISED vs. NOW</h4>
           ${vsBars}
+
+          <h4 class="section-h">THE <span class="red">BOOM</span> THAT DIDN'T SHOW</h4>
+          <div class="statrow">${realityStats}</div>
+          <blockquote class="pullquote">“${R.quote}”<cite>— ${R.quoteWho}${cite(R.quoteSrc)}</cite></blockquote>
+          <p style="color:var(--dim);font-size:.9rem;margin:10px 0 0;max-width:80ch">${R.note}${cite(R.noteSrc)}</p>
+
+          <h4 class="section-h">WHO'S <span class="red">INVESTIGATING</span> THE TICKET MACHINE</h4>
+          <div class="subboard">${probeRows}</div>
 
           <div class="subboard">
             <div class="subboard__title">The substitution board <span class="est-badge">Est</span></div>
